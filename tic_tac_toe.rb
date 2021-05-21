@@ -6,10 +6,10 @@ require './player.rb'
 class TicTacToe
   attr_accessor :grid
   attr_accessor :players
-  def initialize(player_one_str='X', player_two_str='O')
+  def initialize(player_one_str='X', player_two_str='O', grid_width=3)
     raise "Players cannot share the same game string" if player_one_str == player_two_str
     
-    @grid = Grid.new
+    @grid = Grid.new(grid_width)
     @players = [Player.new(player_one_str, 1), Player.new(player_two_str, 2)]
   end
 
