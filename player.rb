@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# a class to store player related information
+# primarily for use with tic-tac-toe, but dynamic enough to service other needs
 class Player
   attr_accessor :game_string, :player_ordinal
 
