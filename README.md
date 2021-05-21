@@ -11,11 +11,22 @@ TODO: make gemfile
 
 ## HOW TO PLAY
 
+#### BASIC
+
 1. clone down this repository
-2. insure that the gem terminal-table is installed
+2. bundle install
 3. run "ruby ./tic_tac_toe.rb" while in the repo's root directory
 
 TODO: make file references dynamic such that users are not required to be in the root repo directory
+
+#### DOCKER
+
+Prerequisite - install docker
+
+1. clone down this repository
+2. build the container (i.e. docker build . --tag tic_tac_toe)
+3. run the container as interactive terminal (i.e. docker run -it tic_tac_toe:latest)
+
 
 ## EXPLANATION OF THOUGHT
 
