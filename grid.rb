@@ -3,8 +3,8 @@ require 'terminal-table'
 class Grid
   attr_accessor :grid
 
-  def initialize
-    @grid = generate_grid
+  def initialize(width=3)
+    @grid = generate_grid(width)
   end
 
   def update_square(row, col, indicator)
@@ -111,10 +111,14 @@ class Grid
 
   private
 
-  def generate_grid
+  def generate_grid(width)
     ret_hsh = {}
-    3.times do |t|
-      ret_hsh[(t + 1).to_s] = {'1' => ' ', '2' => ' ', '3' => ' '}
+    width.times do |t|
+      col_hsh = {}
+      width.times do |t2|
+        col_hsh[(t2 + 1).to_s] = ' '
+      end
+      ret_hsh[(t + 1).to_s] = col_hsh
     end
     ret_hsh
   end
