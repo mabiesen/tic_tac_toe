@@ -57,3 +57,5 @@ Yes, the ordinal reference is not really required, it can  be done away... but m
 Pretty self-explanatory, is responsible for providing the user information  on how-to-play-the-game.  Contains  little logic in itself, is an interactor which drives most logic from the grid class.  
 
 The tic tac toe game DOES allow you to change the symbols from 'X','O' if you so desire
+
+a change i wont merge
