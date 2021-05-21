@@ -3,7 +3,7 @@ require 'terminal-table'
 class Grid
   attr_accessor :grid
 
-  BLANK = ' '
+  BLANK_SPACE = ' '
 
   def initialize(width=3)
     @grid = generate_grid(width)
@@ -14,7 +14,7 @@ class Grid
   end
 
   def square_already_occupied?(row, col)
-    return false if @grid[row.to_s][col.to_s] == BLANK
+    return false if @grid[row.to_s][col.to_s].nil?
     
     true
   end
@@ -23,15 +23,17 @@ class Grid
     ct = 0
     @grid.each do |_,v|
       v.each do |_,v2|
-        ct += 1 if v2 == BLANK
+        ct += 1 if v2.nil?
       end
     end
     ct
   end
 
   def print_grid
-    # we should print the grid with off-side numbers to illustrate coordinates
     arr = grid_to_array_of_values
+
+    # swap nils to make grid pretty
+    arr = arr.map{|a| a.map{|i| i.nil? ? BLANK_SPACE : i}}
     ct = 0
     table = Terminal::Table.new do |t|
       arr.each do |row|
@@ -59,7 +61,7 @@ class Grid
         vals.push(val[key])
       end
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != BLANK
+      if uniq_vals.count == 1 && uniq_vals.first != nil
         return uniq_vals.first
       end
     end
@@ -71,7 +73,7 @@ class Grid
     keys.each do |key|
       vals = @grid[key].values
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != BLANK
+      if uniq_vals.count == 1 && uniq_vals.first != nil
         return uniq_vals.first
       end
     end
@@ -96,7 +98,7 @@ class Grid
              end
 
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != BLANK
+      if uniq_vals.count == 1 && uniq_vals.first != nil
         return uniq_vals.first
       end
     end
@@ -118,7 +120,7 @@ class Grid
     width.times do |t|
       col_hsh = {}
       width.times do |t2|
-        col_hsh[(t2 + 1).to_s] = BLANK
+        col_hsh[(t2 + 1).to_s] = nil
       end
       ret_hsh[(t + 1).to_s] = col_hsh
     end
