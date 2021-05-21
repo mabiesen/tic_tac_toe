@@ -3,6 +3,8 @@ require 'terminal-table'
 class Grid
   attr_accessor :grid
 
+  BLANK = ' '
+
   def initialize(width=3)
     @grid = generate_grid(width)
   end
@@ -12,7 +14,7 @@ class Grid
   end
 
   def square_already_occupied?(row, col)
-    return false if @grid[row.to_s][col.to_s] == ' '
+    return false if @grid[row.to_s][col.to_s] == BLANK
     
     true
   end
@@ -21,7 +23,7 @@ class Grid
     ct = 0
     @grid.each do |_,v|
       v.each do |_,v2|
-        ct += 1 if v2 == ' '
+        ct += 1 if v2 == BLANK
       end
     end
     ct
@@ -57,7 +59,7 @@ class Grid
         vals.push(val[key])
       end
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != ' '
+      if uniq_vals.count == 1 && uniq_vals.first != BLANK
         return uniq_vals.first
       end
     end
@@ -69,7 +71,7 @@ class Grid
     keys.each do |key|
       vals = @grid[key].values
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != ' '
+      if uniq_vals.count == 1 && uniq_vals.first != BLANK
         return uniq_vals.first
       end
     end
@@ -94,7 +96,7 @@ class Grid
              end
 
       uniq_vals = vals.uniq
-      if uniq_vals.count == 1 && uniq_vals.first != ' '
+      if uniq_vals.count == 1 && uniq_vals.first != BLANK
         return uniq_vals.first
       end
     end
@@ -116,7 +118,7 @@ class Grid
     width.times do |t|
       col_hsh = {}
       width.times do |t2|
-        col_hsh[(t2 + 1).to_s] = ' '
+        col_hsh[(t2 + 1).to_s] = BLANK
       end
       ret_hsh[(t + 1).to_s] = col_hsh
     end
