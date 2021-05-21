@@ -1,6 +1,5 @@
 class Player
-  attr_accessor :game_string
-  attr_accessor :player_ordinal
+  attr_accessor :game_string, :player_ordinal
 
   # game string traditionally X/O
   # player ordinal indicates order of moves
