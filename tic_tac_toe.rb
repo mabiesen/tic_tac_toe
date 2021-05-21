@@ -1,8 +1,10 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require './grid'
 require './player'
 
+# simple tic-tac-toe game, cli based
 class TicTacToe
   attr_accessor :grid, :players
 
@@ -13,31 +15,31 @@ class TicTacToe
     @players = [Player.new(player_one_str, 1), Player.new(player_two_str, 2)]
   end
 
+  # rubocop:disable Metrics/MethodLength
   def start_game
     intro
     @grid.print_grid
     round = 1
     while game_still_going?
       current_player = which_player(round)
-      puts "\n\n\n"
-      puts "Player #{current_player.player_ordinal}, your move"
+      puts "\n\nPlayer #{current_player.player_ordinal}, your move"
       row, col = coordinates_from_player
       @grid.update_square(row, col, current_player.game_string)
       @grid.print_grid
       round += 1
     end
-    puts "\n\n\nTHE GAME HAS COMPLETED"
     outro
   end
+  # rubocop:enable Metrics/MethodLength
 
   # Player 1 always starts
   def which_player(round)
-    player_ordinal = round % 2 > 0 ? 1 : 2
+    player_ordinal = (round % 2).positive? ? 1 : 2
     @players.find { |p| p.player_ordinal == player_ordinal }
   end
 
   def game_still_going?
-    !@grid.symbol_if_match_exists && @grid.count_blank_squares > 0
+    !@grid.symbol_if_match_exists && @grid.count_blank_squares.positive?
   end
 
   def coordinates_from_player
@@ -60,6 +62,7 @@ class TicTacToe
   end
 
   def outro
+    puts "\n\n\nTHE GAME HAS COMPLETED"
     winner = @grid.symbol_if_match_exists
     if winner
       puts "The winner is player #{@players.find { |p| p.game_string == winner }.player_ordinal}"

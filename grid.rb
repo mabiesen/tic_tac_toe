@@ -1,12 +1,18 @@
+# frozen_string_literal: true
+
 require 'terminal-table'
 
-class Grid
+# a class to store a matrix in hash form
+# for use with tic-tac-toe, but dynamic enough to service other needs
+class Grid # rubocop:disable Metrics/ClassLength
   attr_accessor :grid
+  attr_reader :width
 
-  BLANK_SPACE = ' '.freeze
+  BLANK_SPACE = ' '
 
   def initialize(width = 3)
     @grid = generate_grid(width)
+    @width = 3
   end
 
   def update_square(row, col, indicator)
@@ -21,19 +27,14 @@ class Grid
 
   def count_blank_squares
     ct = 0
-    @grid.each do |_, v|
-      v.each do |_, v2|
-        ct += 1 if v2.nil?
-      end
+    grid_to_array_of_values.each do |arr|
+      arr.each { |i| ct += 1 if i.nil? }
     end
     ct
   end
 
   def print_grid
-    arr = grid_to_array_of_values
-
-    # swap nils to make grid pretty
-    arr = arr.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
+    arr = grid_to_array_of_values.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
     ct = 0
     table = Terminal::Table.new do |t|
       arr.each do |row|
@@ -65,44 +66,55 @@ class Grid
   end
 
   def horizontal_match_symbol
-    keys = @grid.keys
-    keys.each do |key|
-      vals = @grid[key].values
-      uniq_vals = vals.uniq
+    horizontal_data.each_value do |arr|
+      uniq_vals = arr.uniq
       return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
     end
     nil
   end
 
   def diagonal_match_symbol
-    forward_coords = []
-    backward_coords = []
-    value_count = @grid.values.count
-    value_count.times do |t|
-      forward_coords.push([t + 1, t + 1])
-    end
-
-    value_count.times do |t|
-      backward_coords.push([value_count - t, t + 1])
-    end
-
-    [forward_coords, backward_coords].each do |arr|
-      vals = arr.map do |sub_arr|
-        @grid[sub_arr[0].to_s][sub_arr[1].to_s]
-      end
-
+    diagonal_data.each_value do |vals|
       uniq_vals = vals.uniq
       return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
     end
     nil
   end
 
-  def grid_to_array_of_values
-    arr = []
-    @grid.each do |_k, v|
-      arr.push(v.values)
+  def vertical_data
+    ret_hsh = {}
+    @grid.each_key do |key|
+      vals = @grid.map do |_, val|
+        val[key]
+      end
+      ret_hsh[key] = vals
     end
-    arr
+    ret_hsh
+  end
+
+  # returns  hash containing forward and backward diagnoal data
+  def diagonal_data
+    ret_hsh = {}
+    diagonal_coords.each do |k, arr|
+      vals = arr.map do |sub_arr|
+        @grid[sub_arr[0].to_s][sub_arr[1].to_s]
+      end
+      ret_hsh[k] = vals
+    end
+    ret_hsh
+  end
+
+  # returns hash of row data (as array)
+  def horizontal_data
+    ret_hsh = {}
+    @grid.each do |k, v|
+      ret_hsh[k] = v.values
+    end
+    ret_hsh
+  end
+
+  def grid_to_array_of_values
+    @grid.map { |_k, v| v.values }
   end
 
   private
@@ -117,5 +129,15 @@ class Grid
       ret_hsh[(t + 1).to_s] = col_hsh
     end
     ret_hsh
+  end
+
+  # coordinates not an intended public interface
+  def diagonal_coords
+    data_hsh = { forward: [], backward: [] }
+    @width.times do |t|
+      data_hsh[:forward].push([t + 1, t + 1])
+      data_hsh[:backward].push([@width - t, t + 1])
+    end
+    data_hsh
   end
 end

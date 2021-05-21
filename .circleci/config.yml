@@ -1,0 +1,29 @@
+version: 2.1
+
+db_docker: &db_docker
+  - image: circleci/ruby:2.7.2
+
+update_bundler: &update_bundler
+  run:
+    name: Update Bundler
+    command: bundle update --bundler
+
+bundle_gems: &bundle_gems
+  run:
+    name: Bundle Gems
+    command: bundle install
+
+run_rubocop: &run_rubocop
+  run:
+    name: Run Rubocop
+    command: bundle exec rubocop
+
+jobs:
+  build:
+    working_directory: ~/repo
+    docker: *db_docker
+    steps:
+      - checkout
+      - *update_bundler
+      - *bundle_gems 
+      - *run_rubocop
