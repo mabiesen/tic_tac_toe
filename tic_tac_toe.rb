@@ -41,7 +41,7 @@ class TicTacToe
   # look for match across tic tac toe axes
   # if match exists, return the symbol of the match to indicate game 'winner'
   def symbol_if_winner_found
-    @grid.match_across('horizontal') || @grid.match_across('vertical') || @grid.match_across('diagonal')
+    match_across('horizontal') || match_across('vertical') || match_across('diagonal')
   end
 
   def game_still_going?
@@ -86,6 +86,17 @@ class TicTacToe
       puts 'Tie game!'
     end
     puts 'Thanks for playing!'
+  end
+
+  # look in grid for an axis that has all the same symbol
+  # return that symbol, if match was found; else nil
+  def match_across(which_axis = 'vertical')
+    method_to_call = "#{which_axis}_data"
+    @grid.send(method_to_call).each_value do |arr|
+      uniq_vals = arr.uniq
+      return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
+    end
+    nil
   end
 end
 

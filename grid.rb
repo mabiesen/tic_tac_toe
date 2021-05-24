@@ -33,15 +33,6 @@ class Grid
     ct
   end
 
-  def match_across(which_axis = 'vertical')
-    method_to_call = "#{which_axis}_data"
-    send(method_to_call).each_value do |arr|
-      uniq_vals = arr.uniq
-      return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
-    end
-    nil
-  end
-
   def vertical_data
     ret_hsh = {}
     @grid.each_key do |key|
