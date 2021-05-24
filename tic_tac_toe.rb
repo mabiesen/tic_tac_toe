@@ -48,19 +48,29 @@ class TicTacToe
     !symbol_if_winner_found && @grid.count_blank_squares.positive?
   end
 
+  # rubocop:disable Metrics/MethodLength
   def coordinates_from_player
     loop do
       puts 'Please supply the row to update (hint: first row is 1)'
-      row = gets.chomp
+      row = gets.chomp.to_i
       puts 'Please supply the column to update (hint: first col is 1)'
-      col = gets.chomp
-
-      return row, col unless @grid.square_already_occupied?(row, col)
-
-      puts 'Whoops! Looks like that square is already occupied'
-      puts 'OR maybe there was a typo with your coordinate selection'
-      puts 'Lets try again'
+      col = gets.chomp.to_i
+      begin
+        validate_coordinates(row, col)
+        return row, col
+      rescue StandardError => e
+        puts "#{e}\nLets try again"
+      end
     end
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def validate_coordinates(row, col)
+    raise 'Uh Oh! Rows and columns begin at 1.' if row.zero? || col.zero?
+
+    raise 'Bummer! Column or row out of range' if row > @grid.width || col > @grid.width
+
+    raise 'Whoops! Square is already occupied' if @grid.square_already_occupied?(row, col)
   end
 
   def intro
