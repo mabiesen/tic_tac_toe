@@ -4,7 +4,7 @@ require 'terminal-table'
 
 # a class to store a matrix in hash form
 # for use with tic-tac-toe, but dynamic enough to service other needs
-class Grid # rubocop:disable Metrics/ClassLength
+class Grid 
   attr_accessor :grid
   attr_reader :width
 
@@ -52,8 +52,8 @@ class Grid # rubocop:disable Metrics/ClassLength
     match_across('horizontal') || match_across('vertical') || match_across('diagonal')
   end
 
-  def match_across(which_axis='vertical')
-    method_to_call = which_axis + '_data'
+  def match_across(which_axis = 'vertical')
+    method_to_call = "#{which_axis}_data"
     send(method_to_call).each_value do |arr|
       uniq_vals = arr.uniq
       return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
