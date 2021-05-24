@@ -53,13 +53,8 @@ class Grid # rubocop:disable Metrics/ClassLength
   end
 
   def vertical_match_symbol
-    keys = @grid.keys
-    keys.each do |key|
-      vals = []
-      @grid.each_value do |val|
-        vals.push(val[key])
-      end
-      uniq_vals = vals.uniq
+    vertical_data.each_value do |arr|
+      uniq_vals = arr.uniq
       return uniq_vals.first if uniq_vals.count == 1 && !uniq_vals.first.nil?
     end
     nil
