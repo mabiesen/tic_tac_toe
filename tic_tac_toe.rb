@@ -18,14 +18,14 @@ class TicTacToe
   # rubocop:disable Metrics/MethodLength
   def start_game
     intro
-    @grid.print_grid
+    puts @grid.to_table
     round = 1
     while game_still_going?
       current_player = which_player(round)
       puts "\n\nPlayer #{current_player.player_ordinal}, your move"
       row, col = coordinates_from_player
       @grid.update_square(row, col, current_player.game_string)
-      @grid.print_grid
+      puts @grid.to_table
       round += 1
     end
     outro

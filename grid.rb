@@ -33,19 +33,6 @@ class Grid
     ct
   end
 
-  def print_grid
-    arr = to_a.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
-    ct = 0
-    table = Terminal::Table.new do |t|
-      arr.each do |row|
-        ct += 1
-        t.add_row row
-        t.add_separator unless ct == arr.count
-      end
-    end
-    puts table
-  end
-
   # looks for a 'winner' relative to tic-tac-toe speak
   # returns the game string that one, traditionally  an 'X' or an 'O'
   def symbol_if_match_exists
@@ -99,6 +86,19 @@ class Grid
 
   def to_h
     @grid
+  end
+
+  def to_table
+    arr = to_a.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
+    ct = 0
+    table = Terminal::Table.new do |t|
+      arr.each do |row|
+        ct += 1
+        t.add_row row
+        t.add_separator unless ct == arr.count
+      end
+    end
+    table
   end
 
   private
