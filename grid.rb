@@ -91,14 +91,13 @@ class Grid
   def to_table
     arr = to_a.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
     ct = 0
-    table = Terminal::Table.new do |t|
+    Terminal::Table.new do |t|
       arr.each do |row|
         ct += 1
         t.add_row row
         t.add_separator unless ct == arr.count
       end
     end
-    table
   end
 
   private
