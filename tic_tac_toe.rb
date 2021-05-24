@@ -38,8 +38,14 @@ class TicTacToe
     @players.find { |p| p.player_ordinal == player_ordinal }
   end
 
+  # look for match across tic tac toe axes
+  # if match exists, return the symbol of the match to indicate game 'winner'
+  def symbol_if_winner_found
+    @grid.match_across('horizontal') || @grid.match_across('vertical') || @grid.match_across('diagonal')
+  end
+
   def game_still_going?
-    !@grid.symbol_if_match_exists && @grid.count_blank_squares.positive?
+    !symbol_if_winner_found && @grid.count_blank_squares.positive?
   end
 
   def coordinates_from_player
@@ -63,7 +69,7 @@ class TicTacToe
 
   def outro
     puts "\n\n\nTHE GAME HAS COMPLETED"
-    winner = @grid.symbol_if_match_exists
+    winner = symbol_if_winner_found
     if winner
       puts "The winner is player #{@players.find { |p| p.game_string == winner }.player_ordinal}"
     else
