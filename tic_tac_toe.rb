@@ -16,7 +16,7 @@ class TicTacToe
   end
 
   # rubocop:disable Metrics/MethodLength
-  def start_game
+  def start
     intro
     puts @grid.to_table
     round = 1
@@ -81,5 +81,5 @@ end
 
 if __FILE__ == $PROGRAM_NAME
   game = TicTacToe.new
-  game.start_game
+  game.start
 end
