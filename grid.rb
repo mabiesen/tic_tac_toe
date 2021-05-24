@@ -4,7 +4,7 @@ require 'terminal-table'
 
 # a class to store a matrix in hash form
 # for use with tic-tac-toe, but dynamic enough to service other needs
-class Grid 
+class Grid
   attr_accessor :grid
   attr_reader :width
 
