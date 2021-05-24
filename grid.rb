@@ -33,12 +33,6 @@ class Grid
     ct
   end
 
-  # looks for a 'winner' relative to tic-tac-toe speak
-  # returns the game string that one, traditionally  an 'X' or an 'O'
-  def symbol_if_match_exists
-    match_across('horizontal') || match_across('vertical') || match_across('diagonal')
-  end
-
   def match_across(which_axis = 'vertical')
     method_to_call = "#{which_axis}_data"
     send(method_to_call).each_value do |arr|
