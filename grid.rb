@@ -97,6 +97,10 @@ class Grid
     @grid.map { |_k, v| v.values }
   end
 
+  def to_h
+    @grid
+  end
+
   private
 
   def generate_grid(width)
