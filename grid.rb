@@ -27,14 +27,14 @@ class Grid
 
   def count_blank_squares
     ct = 0
-    grid_to_array_of_values.each do |arr|
+    to_a.each do |arr|
       arr.each { |i| ct += 1 if i.nil? }
     end
     ct
   end
 
   def print_grid
-    arr = grid_to_array_of_values.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
+    arr = to_a.map { |a| a.map { |i| i.nil? ? BLANK_SPACE : i } }
     ct = 0
     table = Terminal::Table.new do |t|
       arr.each do |row|
@@ -93,7 +93,7 @@ class Grid
     ret_hsh
   end
 
-  def grid_to_array_of_values
+  def to_a
     @grid.map { |_k, v| v.values }
   end
 
